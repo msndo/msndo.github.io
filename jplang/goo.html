@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>日本語APIテスト(goo)</title>
+<link rel="stylesheet" href="css/reset.css">
+<link rel="stylesheet" href="css/screen.css">
+
+<script src="truncate-text.js"></script>
+
+<style>
+#contents-outer .show-example { padding: 20px;  }
+#contents-outer .show-example .text-description { width: 100%; }
+#contents-outer .show-example .text-description .content-text { display: block; width: 100%; border: 1px solid #ccc; border-radius: 3px; padding: 10px; overflow: hidden; }
+</style>
+</head>
+
+<body>
+<div id="page-outer">
+<div id="wrapper">
+
+<header id="header-title-page">
+<h1 id="title-page">日本語APIテスト(goo)</h1>
+</header>
+
+<div id="contents-outer">
+
+<!-- ================================================================= Section -->
+<div class="show-example">
+<section>
+<h2 class="heading-section">形態素解析API</h2>
+<p class="text-lead">語句ごとにバラしてくれます</p>
+
+<script>
+/*/
+(function(window, document, undefined) {
+
+	document.addEventListener('DOMContentLoaded', function() {
+		var seriesElem = document.querySelectorAll('#paragraph-morphological');
+
+		[].slice.call(seriesElem).forEach(function(elem) {
+			var text = elem.textContent;
+
+var listParamReq = {
+	app_id: '397ab5a05cb4b2c97b54abac14906b6b768541227a11d8586624d0e8bcbe8f3d',
+	sentence: text,
+	info_filter: 'form'
+};
+console.log(listParamReq)
+
+var request = new XMLHttpRequest();
+request.open('POST', 'https://labs.goo.ne.jp/api/morph', true);
+request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
+request.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
+request.send(listParamReq);
+
+
+
+		});	
+
+
+
+	});
+})(window, document);
+/*/
+</script>
+
+<?php
+$listParamReq = array(
+	'app_id' => '397ab5a05cb4b2c97b54abac14906b6b768541227a11d8586624d0e8bcbe8f3d',
+	'sentence' => '時どき私はそんな路を歩きながら、ふと、そこが京都ではなくて京都から何百里も離れた仙台とか長崎とか――そのような市へ今自分が来ているのだ――という錯覚を起こそうと努める。私は、できることなら京都から逃げ出して誰一人知らないような市へ行ってしまいたかった。第一に安静。がらんとした旅館の一室。清浄な蒲団。匂いのいい蚊帳と糊のよくきいた浴衣。そこで一月ほど何も思わず横になりたい。希わくはここがいつの間にかその市になっているのだったら。――錯覚がようやく成功しはじめると私はそれからそれへ想像の絵具を塗りつけてゆく。なんのことはない、私の錯覚と壊れかかった街との二重写しである。そして私はその中に現実の私自身を見失うのを楽しんだ。',
+	'info_filter' => 'form'
+);
+stream_context_create(
+	array(
+		'http' => array(
+			'method' => 'POST',
+			'header' =>  "Content-Type: application/x-www-form-urlencoded\r\n",
+			'content' => json_encode($listParamReq, 256)
+		)
+	)
+);
+
+$response = file_get_contents('https://labs.goo.ne.jp/api/morph');
+
+?>
+
+
+<div class="text-description">
+<p id="paragraph-morphological" class="content-text">時どき私はそんな路を歩きながら、ふと、そこが京都ではなくて京都から何百里も離れた仙台とか長崎とか――そのような市へ今自分が来ているのだ――という錯覚を起こそうと努める。私は、できることなら京都から逃げ出して誰一人知らないような市へ行ってしまいたかった。第一に安静。がらんとした旅館の一室。清浄な蒲団。匂いのいい蚊帳と糊のよくきいた浴衣。そこで一月ほど何も思わず横になりたい。希わくはここがいつの間にかその市になっているのだったら。――錯覚がようやく成功しはじめると私はそれからそれへ想像の絵具を塗りつけてゆく。なんのことはない、私の錯覚と壊れかかった街との二重写しである。そして私はその中に現実の私自身を見失うのを楽しんだ。</p>
+</div>
+
+</section>
+<!-- /show-example --></div>
+<!-- ================================================================= /Section -->
+
+<!-- /contents-outer --></div>
+
+<!-- /wrapper --></div>
+<!-- /page-outer --></div>
+</body>
+</html>
