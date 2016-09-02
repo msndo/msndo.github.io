@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>タイトル折り返し - 日本語APIテスト(Yahoo! japan)</title>
+<link rel="stylesheet" href="css/reset.css">
+<link rel="stylesheet" href="css/screen.css">
+
+<script src="truncate-text.js"></script>
+
+<style>
+#contents-outer .show-example { padding: 20px;  }
+#contents-outer .show-example .text-description { width: 100%; }
+#contents-outer .show-example .text-description .content-text { display: block; width: 100%; border: 1px solid #ccc; border-radius: 3px; padding: 10px; overflow: hidden; }
+
+.lead { padding: 20px; font-size: 14px; }
+
+.list-analysis { margin-top: 20px; border-collapse: collapse; }
+.list-analysis th,
+.list-analysis td { border: 1px solid #aaa; padding: 10px; }
+.list-analysis th { background: #ccc; }
+
+.diagram-analysis { margin-top: 20px; }
+.diagram-analysis li { float: left; margin: 15px 0 0; border: 1px solid #ccc; border-width: 1px 0 1px;}
+.diagram-analysis li .elem-word { display: block; border: 1px dotted #ccc; border-width: 1px 0 0; padding: 5px 10px; }
+* {border: none !important;}
+.diagram-analysis li .elem-word:first-child { border: none;  background: #fee; }
+.diagram-analysis li .elem-word:nth-child(2) { background: #ffd; }
+.diagram-analysis li .elem-word:nth-child(3) { background: #efd; }
+
+.text-description p,
+#paragraph-result-analysis { text-align: justify; }
+
+.fragment-word { display: inline-block; text-align: justify; }
+</style>
+</head>
+
+<body>
+<div id="page-outer">
+<div id="wrapper">
+
+<header id="header-title-page">
+<h1 id="title-page">タイトル折り返し - 日本語APIテスト(Yahoo! Jpapn)</h1>
+</header>
+
+<p class="lead">ブラウザ幅を変えて折り返しを発生させてみてください</p>
+
+<div id="contents-outer">
+
+<!-- ================================================================= Section -->
+
+<div class="show-example">
+<section>
+<p class="text-lead">普通のテキスト</p>
+<h2 class="heading-section">村上海賊と戦国史――歴史研究と歴史小説</h2>
+</section>
+<!-- /show-example --></div>
+
+
+<div class="show-example">
+<section>
+<p class="text-lead">手動で&lt;br&gt;を入れて強制改行</p>
+<h2 class="heading-section">村上海賊と戦国史――歴史研究と<br>歴史小説</h2>
+</section>
+<!-- /show-example --></div>
+
+<div class="show-example">
+<section>
+<p class="text-lead">日本語エンジン適用</p>
+<h2 class="heading-section"><span class="fragment-word 名詞">村上</span><span class="fragment-word 名詞">海賊</span><span class="fragment-word 助詞">と</span><span class="fragment-word 名詞">戦国</span><span class="fragment-word 接尾辞">史</span><span class="fragment-word 名詞">――</span><span class="fragment-word 名詞">歴史</span><span class="fragment-word 名詞">研究</span><span class="fragment-word 助詞">と</span><span class="fragment-word 名詞">歴史</span><span class="fragment-word 名詞">小説</span></h2>
+</section>
+<!-- /show-example --></div>
+<!-- ================================================================= /Section -->
+
+<!-- /contents-outer --></div>
+
+<!-- /wrapper --></div>
+<!-- /page-outer --></div>
+</body>
+</html>
