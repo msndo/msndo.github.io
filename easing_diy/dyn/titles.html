@@ -1,0 +1,86 @@
+<?php include('app/fragment-sentence.php'); ?>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>タイトル折り返し - 日本語APIテスト(Yahoo! japan)</title>
+<link rel="stylesheet" href="css/reset.css">
+<link rel="stylesheet" href="css/screen.css">
+
+<script src="truncate-text.js"></script>
+
+<style>
+#contents-outer .show-example { padding: 20px;  }
+#contents-outer .show-example .text-description { width: 100%; }
+#contents-outer .show-example .text-description .content-text { display: block; width: 100%; border: 1px solid #ccc; border-radius: 3px; padding: 10px; overflow: hidden; }
+
+.lead { padding: 20px; font-size: 14px; }
+
+.list-analysis { margin-top: 20px; border-collapse: collapse; }
+.list-analysis th,
+.list-analysis td { border: 1px solid #aaa; padding: 10px; }
+.list-analysis th { background: #ccc; }
+
+.diagram-analysis { margin-top: 20px; }
+.diagram-analysis li { float: left; margin: 15px 0 0; border: 1px solid #ccc; border-width: 1px 0 1px;}
+.diagram-analysis li .elem-word { display: block; border: 1px dotted #ccc; border-width: 1px 0 0; padding: 5px 10px; }
+* {border: none !important;}
+.diagram-analysis li .elem-word:first-child { border: none;  background: #fee; }
+.diagram-analysis li .elem-word:nth-child(2) { background: #ffd; }
+.diagram-analysis li .elem-word:nth-child(3) { background: #efd; }
+
+.text-description p,
+#paragraph-result-analysis { text-align: justify; }
+
+.fragment-word { display: inline-block; text-align: justify; }
+</style>
+</head>
+
+<body>
+<div id="page-outer">
+<div id="wrapper">
+
+<header id="header-title-page">
+<h1 id="title-page">タイトル折り返し - 日本語APIテスト(Yahoo! Jpapn)</h1>
+</header>
+
+<p class="lead">ブラウザ幅を変えて折り返しを発生させてみてください</p>
+
+<div id="contents-outer">
+
+<!-- ================================================================= Section -->
+<?php
+$sentence = '時どき私はそんな路を歩きながら、ふと、そこが京都ではなくて京都から何百里も離れた仙台とか長崎とか――そのような市へ今自分が来ているのだ――という錯覚を起こそうと努める。私は、できることなら京都から逃げ出して誰一人知らないような市へ行ってしまいたかった。第一に安静。がらんとした旅館の一室。清浄な蒲団。匂いのいい蚊帳と糊のよくきいた浴衣。そこで一月ほど何も思わず横になりたい。希わくはここがいつの間にかその市になっているのだったら。――錯覚がようやく成功しはじめると私はそれからそれへ想像の絵具を塗りつけてゆく。なんのことはない、私の錯覚と壊れかかった街との二重写しである。そして私はその中に現実の私自身を見失うのを楽しんだ。';
+//$sentence = '7月22日に国内でもサービスがスタートした「ポケットモンスター」の新ゲームアプリ「ポケモンGO」で5日、ポケモンを捕まえるために「モンスターボール」を投球した際のポケモン捕獲率やXP（経験値）のボーナスに不具合が生じていることを、ゲームの公式フェイスブックページなどで明らかにした。公式ページでは、「モンスターボールの投球、ポケモンが捕まる時の確率、及びXPボーナスに不具合が生じております。現在修正作業にとりかかっております。ご迷惑をおかけしてしまい申し訳ございません」とコメントしている。「ポケモンGO」では、ポケモンを捕まえる際に「モンスターボール」を投げるが、ボールに入ったポケモンが脱走する確率が上がり、ボールの当たり方でもらえる経験値のボーナスが付加されないなどの問題が発生しているものとみられる。「ポケモンGO」は、「位置情報ゲーム」と「ARゲーム」を組み合わせ、ポケモンの世界観を再現したゲームアプリ。アプリをインストールしたスマホを持って、実際の世界を動き回ってポケモンを見つけ、「モンスターボール」を使ってポケモンを捕まえることができる。また、仲間のポケモンを育成し、各地にあるポイント「ジム」の争奪戦に参加する。iOSとアンドロイド端末のいずれにも対応する。基本利用料無料でアイテム課金。日本国内では7月22日から配信が始まり、早くもブームが過熱。プレーしながらとみられる事故やトラブルも発生しており、総務省と消費者庁は「ながらスマホ」の危険性を指摘するなど、プレーする際の注意を呼びかけている。31日には、マップの表示の不具合を修正するなどのアップデートがされている。';
+//$sentence = 'あ。あ。あ。あ。あ。あ。あ。あ。あ。あ。あ。あ。あ。あ。あ。あ。あ。あ。あ。あ。あ。あ亜。あ。あ。あ。あ。あ。あ。あ。あ。あ。あ。あ。あ。あ。あ。あ。あ。あ。あ。あ。あ。あ。あ。あ。あ。あ。あ。あ。あ。あ。あ。あ。';
+?>
+
+<div class="show-example">
+<section>
+<p class="text-lead">普通のテキスト</p>
+<h2 class="heading-section">村上海賊と戦国史――歴史研究と歴史小説</h2>
+</section>
+<!-- /show-example --></div>
+
+
+<div class="show-example">
+<section>
+<p class="text-lead">手動で&lt;br&gt;を入れて強制改行</p>
+<h2 class="heading-section">村上海賊と戦国史――歴史研究と<br>歴史小説</h2>
+</section>
+<!-- /show-example --></div>
+
+<div class="show-example">
+<section>
+<p class="text-lead">日本語エンジン適用</p>
+<h2 class="heading-section"><?php echo(htmlFragmentedSentence(parseTextMorph('村上海賊と戦国史――歴史研究と歴史小説'))); ?></h2>
+</section>
+<!-- /show-example --></div>
+<!-- ================================================================= /Section -->
+
+<!-- /contents-outer --></div>
+
+<!-- /wrapper --></div>
+<!-- /page-outer --></div>
+</body>
+</html>

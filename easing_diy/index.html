@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Easing DIY(jQuery)</title>
+<link rel="stylesheet" href="css/reset.css">
+<link rel="stylesheet" href="css/screen.css">
+
+<!-- ========================================================= JS common lib -->
+<script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.2.6/vue.js"></script>
+<script src="truncate-text.js"></script>
+<!-- ========================================================= /JS common lib -->
+
+<!-- ========================================================= JS individual -->
+<script src="js/movement.js"></script>
+<!-- ========================================================= /JS individual -->
+</head>
+
+<body>
+<div id="page-outer">
+<div id="wrapper">
+
+<script>
+(function($) {
+	$.easing["easeTimeline"] = function(x, t, b, c, d){ // (x:進捗率 0 - 1, t:経過時間msec, b:0固定, c:1固定, d:トータル時間msec)
+		var diviation = 1;
+		if(x < 0.05) {
+			diviation = 0.15;
+		}
+		else if(x < 0.1) {
+			diviation = 0.2;
+		}
+		else if(x < 0.2) {
+			diviation = 0.17;
+		}
+		else if(x < 0.3) {
+			diviation = 0.2;
+		}
+		else if(x < 0.4) {
+			diviation = 0.1;
+		}
+		else if(x < 0.5) {
+			diviation = 0.4;
+		}
+		else if(x < 0.6) {
+			diviation = 0.7;
+		}
+		else if(x < 0.7) {
+			diviation = 0.9;
+		}
+		else if(x < 0.8) {
+			diviation = 0.95;
+		}
+		else if(x < 0.9) {
+			diviation = 0.99;
+		}
+		else {
+			diviation = 1;
+		}
+
+		return diviation;
+	};
+
+	$.easing["easeTimelineSmooth"] = function(x, t, b, c, d){ // (x:進捗率 0 - 1, t:経過時間msec, b:0固定, c:1固定, d:トータル時間msec)
+		var diviation = 1;
+
+		if(x < 0.033) {
+			diviation = 0.1;
+		}
+		else if(x < 0.066) {
+			diviation = 0.15;
+		}
+		else if(x < 0.099) {
+			diviation = 0.17;
+		}
+
+		else if(x < .133) {
+			diviation = 0.2;
+		}
+		else if(x < .166) {
+			diviation = 0.17;
+		}
+		else if(x < .199) {
+			diviation = 0.15;
+		}
+
+		else if(x < .233) {
+			diviation = 0.18;
+		}
+		else if(x < .266) {
+			diviation = 0.19;
+		}
+		else if(x < .299) {
+			diviation = 0.2;
+		}
+
+		else if(x < .333) {
+			diviation = 0.261;
+		}
+		else if(x < .366) {
+			diviation = 0.28;
+		}
+		else if(x < .399) {
+			diviation = 0.298;
+		}
+
+		else if(x < .433) {
+			diviation = .35;
+		}
+		else if(x < .466) {
+			diviation = .4;
+		}
+		else if(x < .499) {
+			diviation = .44;
+		}
+
+		else if(x < .533) {
+			diviation = .46;
+		}
+		else if(x < .566) {
+			diviation = .54;
+		}
+		else if(x < .599) {
+			diviation = .6;
+		}
+
+		else if(x < .633) {
+			diviation = .7;
+		}
+		else if(x < .666) {
+			diviation = .78;
+		}
+		else if(x < .699) {
+			diviation = .83;
+		}
+
+		else if(x < .733) {
+			diviation = .85;
+		}
+		else if(x < .766) {
+			diviation = .87;
+		}
+		else if(x < .799) {
+			diviation = .88;
+		}
+
+		else if(x < .833) {
+			diviation = .9;
+		}
+		else if(x < .866) {
+			diviation = .95;
+		}
+		else if(x < .899) {
+			diviation = .97;
+		}
+
+		else if(x < .933) {
+			diviation = .98;
+		}
+		else if(x < .966) {
+			diviation = .99;
+		}
+		else if(x < .999) {
+			diviation = .998;
+		}
+
+		else {
+			diviation = 1;
+		}
+
+		return diviation;
+	};
+
+	$.easing["easeOutExpoQuick"] = function(x, t, b, c, d){ // (x:進捗率 0 - 1, t:経過時間msec, b:0固定, c:1固定, d:トータル時間msec)
+		return (t==d) ? b+c : c * (-Math.pow(10, -15 * t/d) + 1) + b;
+	};
+
+	$.easing["easeInOutExpoLongTail"] = function(x, t, b, c, d){ // (x:進捗率 0 - 1, t:経過時間msec, b:0固定, c:1固定, d:トータル時間msec)
+		if (t==0) return b;
+		if (t==d) return b+c;
+
+		if ((t/=d/2) < 1) return c/2 * Math.pow(8, 10 * (t - 1)) + b;
+		return c/2 * (-Math.pow(8, -3 * --t) + 2) + b;
+	};
+
+})(jQuery);
+
+</script>
+
+<header id="header-title-page">
+<h1 id="title-page">Easing DIY(jQuery)</h1>
+</header>
+
+<div id="contents-outer">
+<p class="lead">時間のn%経過具合にひも付けて0〜1までの小数を返す</p>
+
+<!-- ================================================================= Section -->
+
+<div class="container_content_plain">
+<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++ example-->
+<h2 class="heading-section">easeOutExpo(Preset)</h2>
+
+<div class="container_example">
+<div class="container_snip_code"><pre class="snip_code">
+easeInOutExpo: function (x, t, b, c, d) {
+	return (t==d) ? b+c : c * (-Math.pow(2, -10 * t/d) + 1) + b;
+}
+</pre></div>
+
+<div class="container_gauge_animation"><div class="gauge_animation"><div class="progress_animation" data-anim-easing="easeOutExpo"></div></div></div>
+<div class="container_bt_function"><a class="bt_function bt_start" href="javascript: void(0);">Start</a></div>
+<!-- /container_example --></div>
+<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++ /example -->
+
+<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++ example -->
+<h2 class="heading-section">easeOutExpoQuick(Custom)</h2>
+
+<div class="container_example">
+<div class="container_snip_code"><pre class="snip_code">
+$.easing["easeOutExpoQuick"] = function(x, t, b, c, d){ // (x:進捗率 0 - 1, t:経過時間msec, b:0固定, c:1固定, d:トータル時間msec)
+	return (t==d) ? b+c : c * (-Math.pow(10, -15 * t/d) + 1) + b;
+};
+</pre></div>
+
+<div class="container_gauge_animation"><div class="gauge_animation"><div class="progress_animation" data-anim-easing="easeOutExpoQuick"></div></div></div>
+<div class="container_bt_function"><a class="bt_function bt_start" href="javascript: void(0);">Start</a></div>
+<!-- /container_example --></div>
+<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++ /example -->
+
+
+<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++ example-->
+<h2 class="heading-section">easeInOutExpo(Preset)</h2>
+
+<div class="container_example">
+<div class="container_snip_code"><pre class="snip_code">
+easeInOutExpo: function (x, t, b, c, d) {
+	if (t==0) return b;
+	if (t==d) return b+c;
+	if ((t/=d/2) < 1) return c/2 * Math.pow(2, 10 * (t - 1)) + b;
+	return c/2 * (-Math.pow(2, -10 * --t) + 2) + b;
+}
+</pre></div>
+
+<div class="container_gauge_animation"><div class="gauge_animation"><div class="progress_animation" data-anim-easing="easeInOutExpo"></div></div></div>
+<div class="container_bt_function"><a class="bt_function bt_start" href="javascript: void(0);">Start</a></div>
+<!-- /container_example --></div>
+<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++ /example -->
+
+<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++ example -->
+<h2 class="heading-section">easeInOutExpoLongTail(Custom)</h2>
+
+<div class="container_example">
+<div class="container_snip_code"><pre class="snip_code">
+$.easing["easeInOutExpoLongTail"] = function(x, t, b, c, d){ // (x:進捗率 0 - 1, t:経過時間msec, b:0固定, c:1固定, d:トータル時間msec)
+	if (t==0) return b;
+	if (t==d) return b+c;
+
+	if ((t/=d/2) < 1) return c/2 * Math.pow(8, 10 * (t - 1)) + b;
+	return c/2 * (-Math.pow(8, -3 * --t) + 2) + b;
+};
+</pre></div>
+
+<div class="container_gauge_animation"><div class="gauge_animation"><div class="progress_animation" data-anim-easing="easeInOutExpoLongTail"></div></div></div>
+<div class="container_bt_function"><a class="bt_function bt_start" href="javascript: void(0);">Start</a></div>
+<!-- /container_example --></div>
+<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++ /example -->
+
+
+
+<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++ example-->
+<h2 class="heading-section">easeTimeline(Experiment)</h2>
+
+<div class="container_example">
+<div class="container_snip_code"><pre class="snip_code">
+$.easing["easeTimeline"] = function(x, t, b, c, d){ // (x:進捗率 0 - 1, t:経過時間msec, b:0固定, c:1固定, d:トータル時間msec)
+	var diviation = 1;
+	if(x < 0.05) {
+		diviation = 0.15;
+	}
+	else if(x < 0.1) {
+		diviation = 0.2;
+	}
+	else if(x < 0.2) {
+		diviation = 0.17;
+	}
+	else if(x < 0.3) {
+		diviation = 0.2;
+	}
+	else if(x < 0.4) {
+		diviation = 0.1;
+	}
+	else if(x < 0.5) {
+		diviation = 0.4;
+	}
+	else if(x < 0.6) {
+		diviation = 0.7;
+	}
+	else if(x < 0.7) {
+		diviation = 0.9;
+	}
+	else if(x < 0.8) {
+		diviation = 0.95;
+	}
+	else if(x < 0.9) {
+		diviation = 0.99;
+	}
+	else {
+		diviation = 1;
+	}
+
+	return diviation;
+}
+</pre></div>
+
+<div class="container_gauge_animation"><div class="gauge_animation"><div class="progress_animation" data-anim-easing="easeTimeline"></div></div></div>
+<div class="container_bt_function"><a class="bt_function bt_start" href="javascript: void(0);">Start</a></div>
+<!-- /container_example --></div>
+<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++ /example -->
+
+<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++ example-->
+<h2 class="heading-section">easeTimelineSmooth(Experiment)</h2>
+
+<div class="container_example">
+<div class="container_snip_code"><pre class="snip_code">
+$.easing["easeTimelineSmooth"] = function(x, t, b, c, d){ // (x:進捗率 0 - 1, t:経過時間msec, b:0固定, c:1固定, d:トータル時間msec)
+	var diviation = 1;
+
+	if(x < 0.033) {
+		diviation = 0.1;
+	}
+	else if(x < 0.066) {
+		diviation = 0.15;
+	}
+	else if(x < 0.099) {
+		diviation = 0.17;
+	}
+
+	else if(x < .133) {
+		diviation = 0.2;
+	}
+	else if(x < .166) {
+		diviation = 0.17;
+	}
+	else if(x < .199) {
+		diviation = 0.15;
+	}
+
+	else if(x < .233) {
+		diviation = 0.18;
+	}
+	else if(x < .266) {
+		diviation = 0.19;
+	}
+	else if(x < .299) {
+		diviation = 0.2;
+	}
+
+	else if(x < .333) {
+		diviation = 0.261;
+	}
+	else if(x < .366) {
+		diviation = 0.28;
+	}
+	else if(x < .399) {
+		diviation = 0.298;
+	}
+
+	else if(x < .433) {
+		diviation = .35;
+	}
+	else if(x < .466) {
+		diviation = .4;
+	}
+	else if(x < .499) {
+		diviation = .44;
+	}
+
+	else if(x < .533) {
+		diviation = .46;
+	}
+	else if(x < .566) {
+		diviation = .54;
+	}
+	else if(x < .599) {
+		diviation = .6;
+	}
+
+	else if(x < .633) {
+		diviation = .7;
+	}
+	else if(x < .666) {
+		diviation = .78;
+	}
+	else if(x < .699) {
+		diviation = .83;
+	}
+
+	else if(x < .733) {
+		diviation = .85;
+	}
+	else if(x < .766) {
+		diviation = .87;
+	}
+	else if(x < .799) {
+		diviation = .88;
+	}
+
+	else if(x < .833) {
+		diviation = .9;
+	}
+	else if(x < .866) {
+		diviation = .95;
+	}
+	else if(x < .899) {
+		diviation = .97;
+	}
+
+	else if(x < .933) {
+		diviation = .98;
+	}
+	else if(x < .966) {
+		diviation = .99;
+	}
+	else if(x < .999) {
+		diviation = .998;
+	}
+
+	else {
+		diviation = 1;
+	}
+
+	return diviation;
+}
+</pre></div>
+
+<div class="container_gauge_animation"><div class="gauge_animation"><div class="progress_animation" data-anim-easing="easeTimelineSmooth"></div></div></div>
+<div class="container_bt_function"><a class="bt_function bt_start" href="javascript: void(0);">Start</a></div>
+<!-- /container_example --></div>
+<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++ /example -->
+<!-- /container_content_plain --></div>
+
+<!-- ================================================================= /Section -->
+
+<!-- /contents-outer --></div>
+
+<!-- /wrapper --></div>
+<!-- /page-outer --></div>
+</body>
+</html>

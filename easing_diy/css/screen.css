@@ -1,0 +1,37 @@
+@charset "utf-8";
+
+html * { box-sizing: border-box; }
+body { font-size: 88%; font-family: "游ゴシック体", "Yu Gothic", YuGothic, "ヒラギノ角ゴ Pro", "Hiragino Kaku Gothic Pro", "メイリオ", "Meiryo", sans-serif; }
+
+strong { font-weight: bold; }
+
+#header-title-page { padding: 20px; }
+#title-page { font-size: 300%; font-weight: bold; }
+#contents-outer { padding: 20px 20px 160px; }
+
+.heading-section { margin: 20px 0 0; font-size: 200%; color: #666; font-weight: bold; font-family: "游ゴシック体", "Yu Gothic", YuGothic, "ヒラギノ明朝 Pro", "Hiragino Kaku Gothic Pro", "メイリオ", "Meiryo", serif;}
+
+.text-lead { color: #66a; margin: 20px 0 0; font-size: 117%; }
+.text-description { margin: 20px 0 0; }
+
+
+body { background: #fff; }
+.container_content_plain {  }
+.lead { padding: 20px 0 0; font-size: 14px; }
+
+.container_gauge_animation { margin: 20px 0 0; }
+.gauge_animation { display: block; width: 100%; border: 2px solid #c35; border-radius: 3px; }
+.progress_animation { width: 0; height: 40px; background: #c35; }
+
+.container_bt_function { margin-top: 20px; }
+.container_bt_function .bt_function,
+.container_bt_function .bt_function:link,
+.container_bt_function .bt_function:visited { border-radius: 5px; padding: 10px 30px; font-size: 20px; color: #fff; text-decoration: none; }
+.container_bt_function .bt_function:hover { opacity: 0.5; }
+
+.container_bt_function .bt_start { background: #1a5; }
+.container_bt_function .bt_apply { background: #a15; }
+
+.container_snip_code { margin: 15px 0 0; padding: 10px; border: 1px solid #ccc; overflow-x: scroll; }
+
+.showcode { margin-top: 20px; border: 1px solid #aaa; border-radius: 5px; background: #fff; padding: 10px; width: 100%; height: 100px; overflow-x: scroll; font-size: 10px; font-family: "Verdana"; }
