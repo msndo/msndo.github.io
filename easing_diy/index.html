@@ -15,432 +15,112 @@
 
 <!-- ========================================================= JS individual -->
 <script src="js/movement.js"></script>
+<script src="js/edit.js"></script>
 <!-- ========================================================= /JS individual -->
+
+<style>
+.ctrl_toggle_elem { display: none; color: #934; font-weight: bold; text-decoration: none; }
+
+.ctrl_toggle_elem:after { content: '▼'; padding-left: 8px; }
+.ctrl_toggle_elem:hover { text-decoration: underline; }
+
+.loading { min-width: 30px; min-height: 30px; background-size: auto 30px; background-image: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz48c3ZnIHdpZHRoPScxMjBweCcgaGVpZ2h0PScxMjBweCcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB2aWV3Qm94PSIwIDAgMTAwIDEwMCIgcHJlc2VydmVBc3BlY3RSYXRpbz0ieE1pZFlNaWQiIGNsYXNzPSJ1aWwtYmFsbCI+PHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEwMCIgaGVpZ2h0PSIxMDAiIGZpbGw9Im5vbmUiIGNsYXNzPSJiayI+PC9yZWN0PjxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDUwIDUwKSI+PGc+PGNpcmNsZSBjeD0iMCIgY3k9IjAiIHI9IjE1IiBmaWxsPSIjYjEwMDAwIiB0cmFuc2Zvcm09IiI+PGFuaW1hdGUgYXR0cmlidXRlTmFtZT0iY3kiIGNhbGNNb2RlPSJzcGxpbmUiIGR1cj0iMXMiIHJlcGVhdENvdW50PSJpbmRlZmluaXRlIiBmcm9tPSIzMCIgdG89IjMwIiB2YWx1ZXM9IjMwOy0zMDszMCIga2V5U3BsaW5lcz0iMC40IDAuOCAwLjQgMC44OzAuOCAwLjQgMC44IDAuNCIga2V5VGltZXM9IjA7MC41OzEiPjwvYW5pbWF0ZT48L2NpcmNsZT48YW5pbWF0ZVRyYW5zZm9ybSAgdHlwZT0icm90YXRlIiBmcm9tPSIwIiB0bz0iMzYwIiBkdXI9IjFzIiByZXBlYXRDb3VudD0iaW5kZWZpbml0ZSI+PC9hbmltYXRlVHJhbnNmb3JtPjwvZz48L2c+PC9zdmc+); }
+
+.container_gridchart { font-size: 0; }
+.gridchart,
+.gridchart .cell { border: solid #ddd; }
+.gridchart { width: 400px; box-sizing: border-box; border-width: 1px; }
+.gridchart .row {  }
+.gridchart:after,
+.gridchart .row:after { content: ''; display: table; clear: both; }
+
+.gridchart .row:nth-child(3n) .cell { border-top-width: 1px; }
+
+.gridchart .cell,
+.gridchart .cell:empty { float: left; border-width: 0; width: 0.5%; height: calc(2px); box-sizing: border-box; }
+.gridchart .cell[data-isactv="1"] { background: #c35; }
+.gridchart .cell:nth-child(3n) { border-width: 0 0 0 1px; }
+
+</style>
+
 </head>
 
 <body>
 <div id="page-outer">
 <div id="wrapper">
 
-<script>
-(function($) {
-	$.easing["easeTimeline"] = function(x, t, b, c, d){ // (x:進捗率 0 - 1, t:経過時間msec, b:0固定, c:1固定, d:トータル時間msec)
-		var diviation = 1;
-		if(x < 0.05) {
-			diviation = 0.15;
-		}
-		else if(x < 0.1) {
-			diviation = 0.2;
-		}
-		else if(x < 0.2) {
-			diviation = 0.17;
-		}
-		else if(x < 0.3) {
-			diviation = 0.2;
-		}
-		else if(x < 0.4) {
-			diviation = 0.1;
-		}
-		else if(x < 0.5) {
-			diviation = 0.4;
-		}
-		else if(x < 0.6) {
-			diviation = 0.7;
-		}
-		else if(x < 0.7) {
-			diviation = 0.9;
-		}
-		else if(x < 0.8) {
-			diviation = 0.95;
-		}
-		else if(x < 0.9) {
-			diviation = 0.99;
-		}
-		else {
-			diviation = 1;
-		}
-
-		return diviation;
-	};
-
-	$.easing["easeTimelineSmooth"] = function(x, t, b, c, d){ // (x:進捗率 0 - 1, t:経過時間msec, b:0固定, c:1固定, d:トータル時間msec)
-		var diviation = 1;
-
-		if(x < 0.033) {
-			diviation = 0.1;
-		}
-		else if(x < 0.066) {
-			diviation = 0.15;
-		}
-		else if(x < 0.099) {
-			diviation = 0.17;
-		}
-
-		else if(x < .133) {
-			diviation = 0.2;
-		}
-		else if(x < .166) {
-			diviation = 0.17;
-		}
-		else if(x < .199) {
-			diviation = 0.15;
-		}
-
-		else if(x < .233) {
-			diviation = 0.18;
-		}
-		else if(x < .266) {
-			diviation = 0.19;
-		}
-		else if(x < .299) {
-			diviation = 0.2;
-		}
-
-		else if(x < .333) {
-			diviation = 0.261;
-		}
-		else if(x < .366) {
-			diviation = 0.28;
-		}
-		else if(x < .399) {
-			diviation = 0.298;
-		}
-
-		else if(x < .433) {
-			diviation = .35;
-		}
-		else if(x < .466) {
-			diviation = .4;
-		}
-		else if(x < .499) {
-			diviation = .44;
-		}
-
-		else if(x < .533) {
-			diviation = .46;
-		}
-		else if(x < .566) {
-			diviation = .54;
-		}
-		else if(x < .599) {
-			diviation = .6;
-		}
-
-		else if(x < .633) {
-			diviation = .7;
-		}
-		else if(x < .666) {
-			diviation = .78;
-		}
-		else if(x < .699) {
-			diviation = .83;
-		}
-
-		else if(x < .733) {
-			diviation = .85;
-		}
-		else if(x < .766) {
-			diviation = .87;
-		}
-		else if(x < .799) {
-			diviation = .88;
-		}
-
-		else if(x < .833) {
-			diviation = .9;
-		}
-		else if(x < .866) {
-			diviation = .95;
-		}
-		else if(x < .899) {
-			diviation = .97;
-		}
-
-		else if(x < .933) {
-			diviation = .98;
-		}
-		else if(x < .966) {
-			diviation = .99;
-		}
-		else if(x < .999) {
-			diviation = .998;
-		}
-
-		else {
-			diviation = 1;
-		}
-
-		return diviation;
-	};
-
-	$.easing["easeOutExpoQuick"] = function(x, t, b, c, d){ // (x:進捗率 0 - 1, t:経過時間msec, b:0固定, c:1固定, d:トータル時間msec)
-		return (t==d) ? b+c : c * (-Math.pow(10, -15 * t/d) + 1) + b;
-	};
-
-	$.easing["easeInOutExpoLongTail"] = function(x, t, b, c, d){ // (x:進捗率 0 - 1, t:経過時間msec, b:0固定, c:1固定, d:トータル時間msec)
-		if (t==0) return b;
-		if (t==d) return b+c;
-
-		if ((t/=d/2) < 1) return c/2 * Math.pow(8, 10 * (t - 1)) + b;
-		return c/2 * (-Math.pow(8, -3 * --t) + 2) + b;
-	};
-
-})(jQuery);
-
-</script>
 
 <header id="header-title-page">
-<h1 id="title-page">Easing DIY(jQuery)</h1>
+<h1 id="title-page">Easing Editor(experiment for jQuery easing)</h1>
 </header>
 
 <div id="contents-outer">
-<p class="lead">時間のn%経過具合にひも付けて0〜1までの小数を返す</p>
+
+<!-- ======================================================== Vue Template -->
+<script type="text/x-template" id="grid-template">
+<div id="editgrid" class="gridchart">
+<div class="row" v-for="n in 200" :data-ix-row="200 - n">
+<div class="cell" data-isactv="0" v-for="o in 200"></div>
+<!-- /row --></div>
+<!-- /gridchart --></div>
+</script>
+<!-- ======================================================== /Vue Template -->
 
 <!-- ================================================================= Section -->
-
 <div class="container_content_plain">
-<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++ example-->
-<h2 class="heading-section">easeOutExpo(Preset)</h2>
+<a class="ctrl_toggle_elem" href="editgrid">Show Editor</a>
+<div class="loading"></div>
+<!-- /container_content_plain --></div>
 
-<div class="container_example">
-<div class="container_snip_code"><pre class="snip_code">
-easeInOutExpo: function (x, t, b, c, d) {
-	return (t==d) ? b+c : c * (-Math.pow(2, -10 * t/d) + 1) + b;
-}
-</pre></div>
-
-<div class="container_gauge_animation"><div class="gauge_animation"><div class="progress_animation" data-anim-easing="easeOutExpo"></div></div></div>
-<div class="container_bt_function"><a class="bt_function bt_start" href="javascript: void(0);">Start</a></div>
-<!-- /container_example --></div>
-<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++ /example -->
-
-<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++ example -->
-<h2 class="heading-section">easeOutExpoQuick(Custom)</h2>
-
-<div class="container_example">
-<div class="container_snip_code"><pre class="snip_code">
-$.easing["easeOutExpoQuick"] = function(x, t, b, c, d){ // (x:進捗率 0 - 1, t:経過時間msec, b:0固定, c:1固定, d:トータル時間msec)
-	return (t==d) ? b+c : c * (-Math.pow(10, -15 * t/d) + 1) + b;
-};
-</pre></div>
-
-<div class="container_gauge_animation"><div class="gauge_animation"><div class="progress_animation" data-anim-easing="easeOutExpoQuick"></div></div></div>
-<div class="container_bt_function"><a class="bt_function bt_start" href="javascript: void(0);">Start</a></div>
-<!-- /container_example --></div>
-<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++ /example -->
+<div id="container_editgrid" class="container_gridchart">
 
 
-<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++ example-->
-<h2 class="heading-section">easeInOutExpo(Preset)</h2>
 
-<div class="container_example">
-<div class="container_snip_code"><pre class="snip_code">
-easeInOutExpo: function (x, t, b, c, d) {
-	if (t==0) return b;
-	if (t==d) return b+c;
-	if ((t/=d/2) < 1) return c/2 * Math.pow(2, 10 * (t - 1)) + b;
-	return c/2 * (-Math.pow(2, -10 * --t) + 2) + b;
-}
-</pre></div>
+<!-- /container_gridchart --></div>
 
-<div class="container_gauge_animation"><div class="gauge_animation"><div class="progress_animation" data-anim-easing="easeInOutExpo"></div></div></div>
-<div class="container_bt_function"><a class="bt_function bt_start" href="javascript: void(0);">Start</a></div>
-<!-- /container_example --></div>
-<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++ /example -->
+<div class="container_bt_function"><a class="bt_function bt_apply" href="#editgrid">Apply</a></div>
 
-<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++ example -->
-<h2 class="heading-section">easeInOutExpoLongTail(Custom)</h2>
+<script>
+(function($, global) {
 
-<div class="container_example">
-<div class="container_snip_code"><pre class="snip_code">
-$.easing["easeInOutExpoLongTail"] = function(x, t, b, c, d){ // (x:進捗率 0 - 1, t:経過時間msec, b:0固定, c:1固定, d:トータル時間msec)
-	if (t==0) return b;
-	if (t==d) return b+c;
+	global.seriesEasingTimeline = [];
 
-	if ((t/=d/2) < 1) return c/2 * Math.pow(8, 10 * (t - 1)) + b;
-	return c/2 * (-Math.pow(8, -3 * --t) + 2) + b;
-};
-</pre></div>
+	//console.log(global.seriesEasingTimeline)
+	//console.table(global.seriesEasingTimeline.length)
 
-<div class="container_gauge_animation"><div class="gauge_animation"><div class="progress_animation" data-anim-easing="easeInOutExpoLongTail"></div></div></div>
-<div class="container_bt_function"><a class="bt_function bt_start" href="javascript: void(0);">Start</a></div>
-<!-- /container_example --></div>
-<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++ /example -->
+	$.easing["easeTimeline"] = function(x, t, b, c, d){ // (x:進捗率 0 - 1, t:経過時間msec, b:0固定, c:1固定, d:トータル時間msec)
+		var diviation = 1;
+		//var timeline = [ ];
+		var timeline = global.seriesEasingTimeline;
+		return timeline[Math.floor((timeline.length - 1) * x)];
+	}
+
+})(jQuery, window, undefined);
 
 
+</script>
+<!-- ================================================================= /Section -->
+
+<!-- ================================================================= Section -->
+<div class="container_content_plain">
+<textarea class="showcode">
+[ 0.01, 0.03, 0.045, 0.07, 0.11, 0.155, 0.2, 0.22, 0.235, 0.32, 0.34, 0.35, 0.355, 0.375, 0.395, 0.415, 0.43, 0.435, 0.445, 0.45, 0.455, 0.465, 0.48, 0.48, 0.49, 0.5, 0.505, 0.515, 0.52, 0.525, 0.525, 0.53, 0.53, 0.535, 0.535, 0.535, 0.535, 0.535, 0.535, 0.535, 0.53, 0.53, 0.525, 0.52, 0.515, 0.52, 0.515, 0.505, 0.5, 0.495, 0.49, 0.485, 0.485, 0.48, 0.47, 0.46, 0.46, 0.455, 0.45, 0.44, 0.43, 0.415, 0.405, 0.395, 0.39, 0.36, 0.35, 0.335, 0.32, 0.31, 0.3, 0.295, 0.285, 0.265, 0.26, 0.255, 0.21, 0.185, 0.26, 0.3, 0.35, 0.375, 0.385, 0.405, 0.415, 0.425, 0.43, 0.44, 0.445, 0.46, 0.475, 0.485, 0.495, 0.5, 0.505, 0.51, 0.525, 0.53, 0.535, 0.54, 0.55, 0.555, 0.555, 0.555, 0.555, 0.56, 0.56, 0.56, 0.565, 0.565, 0.565, 0.565, 0.565, 0.56, 0.555, 0.555, 0.55, 0.54, 0.535, 0.53, 0.52, 0.51, 0.5, 0.49, 0.465, 0.445, 0.435, 0.425, 0.42, 0.415, 0.41, 0.4, 0.39, 0.375, 0.365, 0.355, 0.345, 0.34, 0.32, 0.275, 0.385, 0.4, 0.415, 0.45, 0.475, 0.52, 0.57, 0.61, 0.625, 0.635, 0.645, 0.655, 0.665, 0.675, 0.685, 0.7, 0.71, 0.72, 0.735, 0.755, 0.775, 0.785, 0.795, 0.82, 0.825, 0.835, 0.855, 0.86, 0.865, 0.875, 0.88, 0.895, 0.9, 0.905, 0.91, 0.915, 0.915, 0.92, 0.925, 0.945, 0.945, 0.945, 0.945, 0.95, 0.96, 0.965, 0.965, 0.975, 0.975, 0.98, 0.98, 0.98, 0.98, 0.98, 0.995, 0.995, 0.995, 0.995, 0.995, 0.995 ]
+</textarea>
+<!-- /container_content_plain --></div>
+<!-- ================================================================= /Section -->
+
+
+<!-- ================================================================= Section -->
+<div class="container_content_plain">
 
 <!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++ example-->
-<h2 class="heading-section">easeTimeline(Experiment)</h2>
-
 <div class="container_example">
-<div class="container_snip_code"><pre class="snip_code">
-$.easing["easeTimeline"] = function(x, t, b, c, d){ // (x:進捗率 0 - 1, t:経過時間msec, b:0固定, c:1固定, d:トータル時間msec)
-	var diviation = 1;
-	if(x < 0.05) {
-		diviation = 0.15;
-	}
-	else if(x < 0.1) {
-		diviation = 0.2;
-	}
-	else if(x < 0.2) {
-		diviation = 0.17;
-	}
-	else if(x < 0.3) {
-		diviation = 0.2;
-	}
-	else if(x < 0.4) {
-		diviation = 0.1;
-	}
-	else if(x < 0.5) {
-		diviation = 0.4;
-	}
-	else if(x < 0.6) {
-		diviation = 0.7;
-	}
-	else if(x < 0.7) {
-		diviation = 0.9;
-	}
-	else if(x < 0.8) {
-		diviation = 0.95;
-	}
-	else if(x < 0.9) {
-		diviation = 0.99;
-	}
-	else {
-		diviation = 1;
-	}
-
-	return diviation;
-}
-</pre></div>
-
 <div class="container_gauge_animation"><div class="gauge_animation"><div class="progress_animation" data-anim-easing="easeTimeline"></div></div></div>
 <div class="container_bt_function"><a class="bt_function bt_start" href="javascript: void(0);">Start</a></div>
 <!-- /container_example --></div>
 <!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++ /example -->
 
-<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++ example-->
-<h2 class="heading-section">easeTimelineSmooth(Experiment)</h2>
-
-<div class="container_example">
-<div class="container_snip_code"><pre class="snip_code">
-$.easing["easeTimelineSmooth"] = function(x, t, b, c, d){ // (x:進捗率 0 - 1, t:経過時間msec, b:0固定, c:1固定, d:トータル時間msec)
-	var diviation = 1;
-
-	if(x < 0.033) {
-		diviation = 0.1;
-	}
-	else if(x < 0.066) {
-		diviation = 0.15;
-	}
-	else if(x < 0.099) {
-		diviation = 0.17;
-	}
-
-	else if(x < .133) {
-		diviation = 0.2;
-	}
-	else if(x < .166) {
-		diviation = 0.17;
-	}
-	else if(x < .199) {
-		diviation = 0.15;
-	}
-
-	else if(x < .233) {
-		diviation = 0.18;
-	}
-	else if(x < .266) {
-		diviation = 0.19;
-	}
-	else if(x < .299) {
-		diviation = 0.2;
-	}
-
-	else if(x < .333) {
-		diviation = 0.261;
-	}
-	else if(x < .366) {
-		diviation = 0.28;
-	}
-	else if(x < .399) {
-		diviation = 0.298;
-	}
-
-	else if(x < .433) {
-		diviation = .35;
-	}
-	else if(x < .466) {
-		diviation = .4;
-	}
-	else if(x < .499) {
-		diviation = .44;
-	}
-
-	else if(x < .533) {
-		diviation = .46;
-	}
-	else if(x < .566) {
-		diviation = .54;
-	}
-	else if(x < .599) {
-		diviation = .6;
-	}
-
-	else if(x < .633) {
-		diviation = .7;
-	}
-	else if(x < .666) {
-		diviation = .78;
-	}
-	else if(x < .699) {
-		diviation = .83;
-	}
-
-	else if(x < .733) {
-		diviation = .85;
-	}
-	else if(x < .766) {
-		diviation = .87;
-	}
-	else if(x < .799) {
-		diviation = .88;
-	}
-
-	else if(x < .833) {
-		diviation = .9;
-	}
-	else if(x < .866) {
-		diviation = .95;
-	}
-	else if(x < .899) {
-		diviation = .97;
-	}
-
-	else if(x < .933) {
-		diviation = .98;
-	}
-	else if(x < .966) {
-		diviation = .99;
-	}
-	else if(x < .999) {
-		diviation = .998;
-	}
-
-	else {
-		diviation = 1;
-	}
-
-	return diviation;
-}
-</pre></div>
-
-<div class="container_gauge_animation"><div class="gauge_animation"><div class="progress_animation" data-anim-easing="easeTimelineSmooth"></div></div></div>
-<div class="container_bt_function"><a class="bt_function bt_start" href="javascript: void(0);">Start</a></div>
-<!-- /container_example --></div>
-<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++ /example -->
 <!-- /container_content_plain --></div>
-
 <!-- ================================================================= /Section -->
 
 <!-- /contents-outer --></div>
