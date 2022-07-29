@@ -3,7 +3,23 @@
 
 ## もの！
 ### debounce, throttle（codepen）
-https://codepen.io/msndo/pen/GRxOZwN
+<a href="https://codepen.io/msndo/pen/GRxOZwN" target="_blank">https://codepen.io/msndo/pen/GRxOZwN</a>
+
+
+4行目付近を1個ずつ試してみてください！
+
+```
+    // 間引きなし
+    window.addEventListener('scroll', bindCycleColor);
+
+    // 間引き - debounce
+    // window.addEventListener('scroll', debounce(500, bindCycleColor));
+
+    // 間引き - throttle
+    // window.addEventListener('scroll', throttle(500, bindCycleColor));
+```
+
+
 
 ## debounce
 100個だったら100個のイベントのカタマリがあるとして、
@@ -24,11 +40,21 @@ https://codepen.io/msndo/pen/GRxOZwN
 ## どんな時に使う？
 スクロールとリサイズが多いです！
 イベントに引っ掛けてやる感じです。
+そのほか、キーボードの打鍵（keyup や keypress）で使うケースもあります。
+
+（ブラウザのイベント（待ち受け）の例。知られざるものも相当ある
+
+<a href="https://web-designer.cman.jp/javascript_ref/event_list/" target="_blank">https://web-designer.cman.jp/javascript_ref/event_list/</a>
+
+
+
 
 ## 準備
 JS上で関数を書いておきます。検索してコピペでもいいですが汗、上のcodepenのでいいかなと
+nodeのthrottle-debounceが導入されていればそちらを使いましょう：
 
-CONNECTでは「検索してコピペ」は不要！yarnでプリインストールされてます（はず！）。
+<a href="https://www.npmjs.com/package/throttle-debounce" target="_blank">https://www.npmjs.com/package/throttle-debounce</a>
+
 
 ## 使い方！
 
@@ -36,83 +62,37 @@ CONNECTでは「検索してコピペ」は不要！yarnでプリインストー
 windw.addEventListener('scroll', debounce(1000, nameOfFunction));
 ```
 
-```
-windw.addEventListener('scroll', throttle(1000, nameOfFunction));
-```
-
-
-
-
-
-## 「関数を渡す」ということについて
-
-さて、、上の記法をまる覚えで使っていただいてもいいですが、、
-
-addEventListener() は
-addEventListener(stringForNameOfEvent, function)
-
-で、第2引数は「イベントハンドラ」でこれは処理を束にした「関数」なんですわ。
-
-よく出る書式は：
-
-### 1.
-
-```
-button.addEventListener('click', function() {
-  container.style.backgroundColor = '#FF0000';
-});
-```
-
-あるいは
-
-### 2.
-
-```
-button.addEventListener('click', paintRed);
-
-function paintRed() {
-  container.style.backgroundColor = '#FF0000';
-}
-```
-
-2つめの方の
-
-```
-button.addEventListener('click', paintRed);
-```
-
-は関数を渡しているのに括弧がなくて気持ち悪かったりするんですが
-VanillaJSだと2つめの方がいいかなと思います。イベントハンドラはベタがきせず独立関数にした方がいい。
-なんでかというと removeEventListener をやりやすくできるから、です。
-
-```
-button.removeEventListener('click', paintRed);
-```
-
-こっちだと取り消しコマンド removeEventListener() が書けない
-
-```
-button.addEventListener('click', function() {
-  container.style.backgroundColor = '#FF0000';
-});
-```
-
-```
-button.removeEventListener('click', ぐぬぬ);
-```
-
-処理が名前の元にまとまってて一意特定ができる状態が必要なのです。
-function() {} の形で書くとその場で蒸発してしまい取り消しの手がかりがなくなってしまう。
-
-
-さて、debounceとthrottle に立ち戻ると：
-
-```
-windw.addEventListener('scroll', debounce(1000, nameOfFunction));
-```
+特にthrottleのほうはどのライブラリやスニペットも設定項目がいくつかある場合が多いですが基本は以下：
 
 ```
 windw.addEventListener('scroll', throttle(1000, nameOfFunction));
 ```
 
 
+## （時間あれば）イベント待受けを解除したい （removeEventListener() したい）場合など
+
+さて、、基本的には上の記法をまる覚えで使っていただいてもいいですが、、
+
+状況によっては一度登録したイベントリスナを解除したい場合もあるわけです。
+で
+addEventListener() を解除する removeEventListener() がありますがうまくいかないというご経験ある方もいらっしゃると思います。
+
+答えから書いてしまうと以下のようにすると：
+
+```
+const debounceLocal = debounce(500, nameOfFunction);
+window.addEventListener('scroll', debounceLocal);
+```
+
+removeEventListener() が可能になります：
+
+```
+window.removeEventListener('scroll', debounceLocal);
+```
+
+イベントハンドラは関数なのですが、()つきで記述すると関数を呼び出して動かすという挙動になり、
+動かした後はその場で蒸発してしまってremove側に引き継ぐ手がかりが失われるという結果になります。。
+関数名だけ指定すると手がかりが残るのでremove側で扱えます。
+
+日頃使っているaddEventListener() ですがハンドラは function() {} の形ではなく名前付き関数・引数なしの形で
+定義しておくのが無難となります！
