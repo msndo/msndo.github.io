@@ -103,7 +103,7 @@ function sleep() {
 
 ## まとめ
 例の中のsleep() はまず完了通知ブザーPromiseを親に渡しておきます。
-Promiseの中で具体的な処理が実行されます。 resolve（正常終了）でブザーが鳴って
+Promiseの中で具体的な処理が実行されます。 最後にresolve（正常終了）を書いておくとでブザーが鳴って
 呼び出し側では受け皿の then() の中身が実行されるという構造です。
 
 とは言ってもやってみないとわかりづらいところなので Promise() や then() の中身を書き換えたりして把握してください！
@@ -113,3 +113,6 @@ Ajaxなどではサーバが落ちてたときなどのバッドエンドルー�
 それはまた別の機会で。
 （ただAjaxで正常ルートだけを実装するということは少なくともプロダクションコードではありえないない、
 というところだけお見知り置きを。。
+
+## 参考 debounceとPromiseを組み合わせた例（検索窓サジェスト）
+<a href="https://codepen.io/msndo/pen/GRxOpWO" target="_blank">https://codepen.io/msndo/pen/GRxOpWO</a>
