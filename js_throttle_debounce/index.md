@@ -69,12 +69,11 @@ windw.addEventListener('scroll', throttle(1000, nameOfFunction));
 ```
 
 
-## （時間あれば）イベント待受けを解除したい （removeEventListener() したい）場合など
+## （時間あればやる）イベント待受けを解除したい、つまり removeEventListener() したい場合など
 
-さて、、基本的には上の記法をまる覚えで使っていただいてもいいですが、、
-
+さて、、基本的には上の記法をまる覚えで使っていただいてもいいですが、
 状況によっては一度登録したイベントリスナを解除したい場合もあるわけです。
-で
+
 addEventListener() を解除する removeEventListener() がありますがうまくいかないというご経験ある方もいらっしゃると思います。
 
 答えから書いてしまうと以下のようにすると：
